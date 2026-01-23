@@ -1,6 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/hooks/useAuth';
+import { useIsAdmin } from '@/hooks/useAdmin';
 import { ThemeToggle } from '@/components/ui/theme-toggle';
 import { 
   DropdownMenu,
@@ -18,11 +19,13 @@ import {
   User, 
   LayoutDashboard,
   MessageSquare,
+  Shield,
 } from 'lucide-react';
 import { useState } from 'react';
 
 export function Header() {
   const { user, profile, signOut } = useAuth();
+  const { isAdmin } = useIsAdmin();
   const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -103,6 +106,15 @@ export function Header() {
                   <MessageSquare className="mr-2 h-4 w-4" />
                   Messages
                 </DropdownMenuItem>
+                {isAdmin && (
+                  <>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem onClick={() => navigate('/admin')}>
+                      <Shield className="mr-2 h-4 w-4" />
+                      Admin Panel
+                    </DropdownMenuItem>
+                  </>
+                )}
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={handleSignOut} className="text-destructive focus:text-destructive">
                   <LogOut className="mr-2 h-4 w-4" />
@@ -176,6 +188,16 @@ export function Header() {
                 >
                   Profile
                 </Link>
+                {isAdmin && (
+                  <Link 
+                    to="/admin" 
+                    className="block py-2 text-sm font-medium text-primary hover:text-primary/80 transition-colors"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    <Shield className="inline mr-2 h-4 w-4" />
+                    Admin Panel
+                  </Link>
+                )}
                 <div className="pt-2 border-t">
                   <Button 
                     variant="ghost" 
