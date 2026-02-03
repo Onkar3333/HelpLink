@@ -491,16 +491,3 @@ All tables are protected with RLS policies:
 
 This project is open source and available under the [MIT License](LICENSE).
 
----
-
-## 🙏 Acknowledgments
-
-- Built with [Lovable](https://lovable.dev)
-- UI components from [shadcn/ui](https://ui.shadcn.com)
-- Backend powered by [Supabase](https://supabase.com)
-
----
-
-<p align="center">
-  Made with ❤️ for communities in need
-</p>
