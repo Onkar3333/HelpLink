@@ -15,6 +15,7 @@ import { HELP_CATEGORIES, HelpCategory, URGENCY_CONFIG } from '@/lib/constants';
 import { DISASTER_HELPLINES } from '@/lib/helplines';
 import { BLOOD_DONATION_HOSPITALS } from '@/lib/hospitals';
 import { BOOK_EXCHANGE_CONTACTS } from '@/lib/bookExchange';
+import { MEDICAL_FACILITIES, getTypeLabel } from '@/lib/medicalAssistance';
 import { EmergencyHelplineCard } from '@/components/requests/EmergencyHelplineCard';
 import { ArrowLeft, ArrowRight, Loader2, AlertTriangle, CheckCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -274,6 +275,36 @@ export default function CreateRequestPage() {
                           </div>
                         )
                       )}
+                    </CardContent>
+                  </Card>
+                </div>
+              )}
+
+              {category === 'medical_assistance' && (
+                <div className="pb-4">
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="text-sm">Nearby Medical Facilities</CardTitle>
+                      <CardDescription className="text-xs">
+                        Hospitals, clinics, and pharmacies near Murtizapur and Akola for medical assistance.
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                      {MEDICAL_FACILITIES.map((facility) => (
+                        <div key={facility.id} className="space-y-1 pb-3 border-b last:border-b-0">
+                          <div className="font-medium text-sm text-foreground flex items-center gap-2">
+                            <span>{getTypeLabel(facility.type)}</span>
+                            <span className="text-xs text-muted-foreground">({facility.type})</span>
+                          </div>
+                          <div className="font-medium text-sm">{facility.name}</div>
+                          <div className="text-xs text-muted-foreground">{facility.address}</div>
+                          <div className="text-xs text-muted-foreground">
+                            {facility.phone && <span>Phone: {facility.phone}</span>}
+                            {facility.phone && facility.distance && <span> · </span>}
+                            {facility.distance && <span>Distance: {facility.distance}</span>}
+                          </div>
+                        </div>
+                      ))}
                     </CardContent>
                   </Card>
                 </div>
