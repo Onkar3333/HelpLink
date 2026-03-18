@@ -12,6 +12,10 @@ import { ImageUpload } from '@/components/requests/ImageUpload';
 import { useAuth } from '@/hooks/useAuth';
 import { useCreateRequest } from '@/hooks/useHelpRequests';
 import { HELP_CATEGORIES, HelpCategory, URGENCY_CONFIG } from '@/lib/constants';
+import { DISASTER_HELPLINES } from '@/lib/helplines';
+import { BLOOD_DONATION_HOSPITALS } from '@/lib/hospitals';
+import { BOOK_EXCHANGE_CONTACTS } from '@/lib/bookExchange';
+import { EmergencyHelplineCard } from '@/components/requests/EmergencyHelplineCard';
 import { ArrowLeft, ArrowRight, Loader2, AlertTriangle, CheckCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Database } from '@/integrations/supabase/types';
@@ -31,6 +35,10 @@ export default function CreateRequestPage() {
   const [city, setCity] = useState('');
   const [location, setLocation] = useState('');
   const [contactPhone, setContactPhone] = useState('');
+  const [exchangeShop, setExchangeShop] = useState('');
+  const [exchangeShopAddress, setExchangeShopAddress] = useState('');
+  const [customExchangeShop, setCustomExchangeShop] = useState('');
+  const [customExchangeShopAddress, setCustomExchangeShopAddress] = useState('');
   const [imageUrl, setImageUrl] = useState<string | null>(null);
 
   if (authLoading) {
@@ -62,13 +70,25 @@ export default function CreateRequestPage() {
   const handleSubmit = async () => {
     if (!category || !title || !description) return;
 
+    const shopName = category === 'education'
+      ? (exchangeShop === 'other' ? customExchangeShop.trim() : exchangeShop)
+      : '';
+
+    const shopAddress = category === 'education'
+      ? (exchangeShop === 'other' ? customExchangeShopAddress.trim() : exchangeShopAddress)
+      : '';
+
+    const descriptionWithShop = shopName
+      ? `${description}\n\nBook Exchange Shop: ${shopName}${shopAddress ? `\nShop Address: ${shopAddress}` : ''}`
+      : description;
+
     const { error, data } = await createRequest({
       category,
       title,
-      description,
+      description: descriptionWithShop,
       urgency,
       city: city || undefined,
-      location: location || undefined,
+      location: (category === 'education' && shopAddress) ? shopAddress : (location || undefined),
       contact_phone: contactPhone || undefined,
       image_url: imageUrl || undefined,
     });
@@ -79,7 +99,13 @@ export default function CreateRequestPage() {
   };
 
   const canProceedStep1 = category !== null;
-  const canProceedStep2 = title.length >= 10 && description.length >= 20;
+  const categoryRequiresShop = category === 'education';
+  const isOtherShopSelected = categoryRequiresShop && exchangeShop === 'other';
+  const canProceedStep2 =
+    title.length >= 10 &&
+    description.length >= 20 &&
+    (!categoryRequiresShop || exchangeShop !== '') &&
+    (!isOtherShopSelected || customExchangeShop.trim().length > 0);
   const canSubmit = canProceedStep1 && canProceedStep2;
 
   return (
@@ -149,6 +175,132 @@ export default function CreateRequestPage() {
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
+              {category === 'blood_donation' && (
+                <div className="pb-4">
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="text-sm">Nearby Blood Donation Hospitals</CardTitle>
+                      <CardDescription className="text-xs">
+                        Hospitals near Government Polytechnic Murtizapur (NH-6) that may request blood donations.
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-2">
+                      {BLOOD_DONATION_HOSPITALS.map((hospital) => (
+                        <div key={hospital.id} className="space-y-1">
+                          <div className="font-medium text-sm text-foreground">{hospital.name}</div>
+                          <div className="text-xs text-muted-foreground">{hospital.address}</div>
+                          <div className="text-xs text-muted-foreground">
+                            {hospital.phone && <span>Phone: {hospital.phone}</span>}
+                            {hospital.phone && hospital.distance && <span> · </span>}
+                            {hospital.distance && <span>Distance: {hospital.distance}</span>}
+                          </div>
+                        </div>
+                      ))}
+                    </CardContent>
+                  </Card>
+                </div>
+              )}
+
+              {category === 'education' && (
+                <div className="pb-4">
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="text-sm">Book Exchange Shop</CardTitle>
+                      <CardDescription className="text-xs">
+                        Select a nearby shop to act as a middleman, or enter the shop name manually for security.
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                      <div className="space-y-2">
+                        <Label htmlFor="exchangeShop">Choose a shop</Label>
+                        <select
+                          id="exchangeShop"
+                          value={exchangeShop}
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            setExchangeShop(value);
+
+                            const contact = BOOK_EXCHANGE_CONTACTS.find((c) => c.name === value);
+                            setExchangeShopAddress(contact?.address ?? '');
+
+                            // reset custom entry when picking from list
+                            if (value !== 'other') {
+                              setCustomExchangeShop('');
+                              setCustomExchangeShopAddress('');
+                            }
+                          }}
+                          className="w-full rounded-md border px-3 py-2"
+                        >
+                          <option value="">Select a shop</option>
+                          {BOOK_EXCHANGE_CONTACTS.map((contact) => (
+                            <option key={contact.id} value={contact.name}>
+                              {contact.name}
+                            </option>
+                          ))}
+                          <option value="other">Other (enter manually)</option>
+                        </select>
+                      </div>
+
+                      {exchangeShop === 'other' ? (
+                        <>
+                          <div className="space-y-2">
+                            <Label htmlFor="customExchangeShop">Enter shop name</Label>
+                            <Input
+                              id="customExchangeShop"
+                              placeholder="e.g., XYZ Bookstore"
+                              value={customExchangeShop}
+                              onChange={(e) => setCustomExchangeShop(e.target.value)}
+                            />
+                          </div>
+                          <div className="space-y-2">
+                            <Label htmlFor="customExchangeShopAddress">Enter shop address</Label>
+                            <Input
+                              id="customExchangeShopAddress"
+                              placeholder="e.g., Near Main Market, Murtizapur"
+                              value={customExchangeShopAddress}
+                              onChange={(e) => setCustomExchangeShopAddress(e.target.value)}
+                            />
+                          </div>
+                        </>
+                      ) : (
+                        exchangeShop && (
+                          <div className="rounded-md border border-border/50 bg-muted/40 p-3">
+                            <div className="text-xs font-semibold text-muted-foreground mb-1">
+                              Shop address
+                            </div>
+                            <div className="text-sm text-foreground">
+                              {exchangeShopAddress || 'No address available'}
+                            </div>
+                          </div>
+                        )
+                      )}
+                    </CardContent>
+                  </Card>
+                </div>
+              )}
+
+              {(category === 'disaster_relief' || category === 'emergency') && (
+                <div className="pb-4">
+                  <EmergencyHelplineCard
+                    title={
+                      category === 'disaster_relief'
+                        ? 'Disaster Relief'
+                        : 'Emergency Help'
+                    }
+                    description={
+                      category === 'disaster_relief'
+                        ? 'Some important government helpline numbers for disaster management / medical contact'
+                        : 'Government helpline numbers you can call or copy instantly.'
+                    }
+                    helplines={
+                      category === 'disaster_relief'
+                        ? DISASTER_HELPLINES
+                        : undefined
+                    }
+                  />
+                </div>
+              )}
+
               <div className="space-y-2">
                 <Label htmlFor="title">Title *</Label>
                 <Input

@@ -18,10 +18,8 @@ export type HelpCategory =
   | 'emergency'
   | 'food_grocery'
   | 'education'
-  | 'financial'
   | 'shelter_housing'
   | 'job_skills'
-  | 'senior_citizen'
   | 'disaster_relief';
 
 export type UrgencyLevel = 'normal' | 'urgent' | 'critical';
@@ -72,18 +70,10 @@ export const HELP_CATEGORIES: CategoryInfo[] = [
   {
     id: 'education',
     label: 'Education Support',
-    description: 'Books, fees, mentorship, online classes',
+    description: 'Book exchange support and resources for learners',
     icon: GraduationCap,
     color: 'text-purple-600',
     bgColor: 'bg-purple-50',
-  },
-  {
-    id: 'financial',
-    label: 'Financial Help',
-    description: 'Monetary assistance for emergencies',
-    icon: Wallet,
-    color: 'text-yellow-600',
-    bgColor: 'bg-yellow-50',
   },
   {
     id: 'shelter_housing',
@@ -100,14 +90,6 @@ export const HELP_CATEGORIES: CategoryInfo[] = [
     icon: Briefcase,
     color: 'text-indigo-600',
     bgColor: 'bg-indigo-50',
-  },
-  {
-    id: 'senior_citizen',
-    label: 'Senior Citizen Help',
-    description: 'Assistance for elderly with daily needs',
-    icon: Heart,
-    color: 'text-pink-600',
-    bgColor: 'bg-pink-50',
   },
   {
     id: 'disaster_relief',

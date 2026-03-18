@@ -136,7 +136,6 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Urgent Requests */}
       {urgentRequests.length > 0 && (
         <section className="py-16 relative">
           <div className="absolute inset-0 bg-gradient-mesh opacity-50" />

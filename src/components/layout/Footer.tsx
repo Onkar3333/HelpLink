@@ -53,10 +53,8 @@ export function Footer() {
           <div>
             <h3 className="font-semibold mb-4">More Categories</h3>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              <li>Financial Help</li>
               <li>Shelter & Housing</li>
               <li>Job & Skills</li>
-              <li>Senior Citizen Help</li>
               <li>Disaster Relief</li>
             </ul>
           </div>
