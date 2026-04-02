@@ -18,8 +18,10 @@ export type HelpCategory =
   | 'emergency'
   | 'food_grocery'
   | 'education'
+  | 'financial'
   | 'shelter_housing'
   | 'job_skills'
+  | 'senior_citizen'
   | 'disaster_relief';
 
 export type UrgencyLevel = 'normal' | 'urgent' | 'critical';
