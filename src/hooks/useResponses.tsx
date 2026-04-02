@@ -31,8 +31,8 @@ export function useRequestResponses(requestId: string) {
 
     setLoading(true);
     
-    const { data, error } = await supabase
-      .from('help_responses')
+    const { data, error } = await (supabase
+      .from('help_responses') as any)
       .select('*')
       .eq('request_id', requestId)
       .order('created_at', { ascending: true });
