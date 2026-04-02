@@ -258,8 +258,8 @@ export function useAdminUsers() {
   }, [isAdmin, fetchUsers]);
 
   const addRole = async (userId: string, role: AppRole) => {
-    const { error } = await supabase
-      .from('user_roles')
+    const { error } = await (supabase
+      .from('user_roles') as any)
       .insert({ user_id: userId, role });
 
     if (error) {
