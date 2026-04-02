@@ -60,14 +60,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const fetchProfile = async (userId: string) => {
-    const { data, error } = await supabase
-      .from('profiles')
+    const { data, error } = await (supabase
+      .from('profiles') as any)
       .select('*')
       .eq('user_id', userId)
       .maybeSingle();
 
     if (!error && data) {
-      setProfile(data);
+      setProfile(data as Profile);
     }
   };
 
