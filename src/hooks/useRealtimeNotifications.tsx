@@ -32,8 +32,8 @@ export function useRealtimeNotifications() {
 
           if (request && request.user_id === user.id) {
             // Get helper's profile using public view (excludes phone)
-            const { data: helperProfile } = await supabase
-              .from('profiles_public')
+            const { data: helperProfile } = await (supabase
+              .from('profiles_public') as any)
               .select('full_name')
               .eq('user_id', payload.new.helper_id)
               .single();

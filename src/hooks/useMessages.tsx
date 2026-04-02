@@ -237,8 +237,8 @@ export function useSendMessage() {
     try {
       console.log('Sending message:', { from: user.id, to: receiverId, content });
 
-      const { data, error } = await supabase
-        .from('messages')
+      const { data, error } = await (supabase
+        .from('messages') as any)
         .insert({
           sender_id: user.id,
           receiver_id: receiverId,

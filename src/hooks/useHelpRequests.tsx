@@ -223,8 +223,8 @@ export function useUpdateRequestStatus() {
   const updateStatus = async (requestId: string, status: RequestStatusEnum) => {
     setLoading(true);
     
-    const { error } = await supabase
-      .from('help_requests')
+    const { error } = await (supabase
+      .from('help_requests') as any)
       .update({ status })
       .eq('id', requestId);
 

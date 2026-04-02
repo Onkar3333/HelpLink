@@ -118,8 +118,8 @@ export function useCreateResponse() {
       console.log('Help response created:', responseData);
 
       // Create a private message from helper to seeker (fire and forget)
-      supabase
-        .from('messages')
+      (supabase
+        .from('messages') as any)
         .insert({
           sender_id: user.id,
           receiver_id: seekerId,
