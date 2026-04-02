@@ -24,8 +24,8 @@ export function useRealtimeNotifications() {
         },
         async (payload) => {
           // Check if the response is for one of the user's requests
-          const { data: request } = await supabase
-            .from('help_requests')
+          const { data: request } = await (supabase
+            .from('help_requests') as any)
             .select('id, title, user_id')
             .eq('id', payload.new.request_id)
             .single();
