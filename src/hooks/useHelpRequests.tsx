@@ -55,8 +55,8 @@ export function useHelpRequests(filters?: {
     setLoading(true);
     
     // Use public view to hide sensitive data (contact_phone) for browsing
-    let query = supabase
-      .from('help_requests_public')
+    let query = (supabase
+      .from('help_requests_public') as any)
       .select('*')
       .order('created_at', { ascending: false });
 
