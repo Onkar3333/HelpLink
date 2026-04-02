@@ -44,8 +44,8 @@ export function useRequestResponses(requestId: string) {
       // Fetch profile data from the public view for each helper
       const responsesWithProfiles = await Promise.all(
         (data || []).map(async (response: any) => {
-          const { data: profile } = await supabase
-            .from('profiles_public')
+          const { data: profile } = await (supabase
+            .from('profiles_public') as any)
             .select('full_name, avatar_url')
             .eq('user_id', response.helper_id)
             .maybeSingle();
