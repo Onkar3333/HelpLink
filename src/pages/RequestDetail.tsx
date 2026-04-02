@@ -70,8 +70,8 @@ export default function RequestDetailPage() {
       }
       
       // Get requester profile from public view
-      const { data: profile } = await supabase
-        .from('profiles_public')
+      const { data: profile } = await (supabase
+        .from('profiles_public') as any)
         .select('full_name, avatar_url')
         .eq('user_id', publicData.user_id)
         .maybeSingle();
