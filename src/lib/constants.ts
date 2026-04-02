@@ -78,6 +78,14 @@ export const HELP_CATEGORIES: CategoryInfo[] = [
     bgColor: 'bg-purple-50',
   },
   {
+    id: 'financial',
+    label: 'Financial Aid',
+    description: 'Financial assistance and monetary support',
+    icon: Wallet,
+    color: 'text-yellow-600',
+    bgColor: 'bg-yellow-50',
+  },
+  {
     id: 'shelter_housing',
     label: 'Shelter & Housing',
     description: 'Temporary shelter, rent help, safe housing',
