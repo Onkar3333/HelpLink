@@ -246,7 +246,7 @@ export function useAdminUsers() {
         variant: 'destructive',
       });
     } else {
-      setUsers((data as AdminUser[]) || []);
+      setUsers((data as unknown as AdminUser[]) || []);
     }
     setLoading(false);
   }, [user, isAdmin, toast]);
