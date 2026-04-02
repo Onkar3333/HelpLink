@@ -44,8 +44,8 @@ const Admin = () => {
       setStatsLoading(true);
       
       const [usersResult, requestsResult] = await Promise.all([
-        supabase.from('admin_users_view').select('id', { count: 'exact', head: true }),
-        supabase.from('admin_requests_view').select('id, status, is_verified'),
+        (supabase.from('admin_users_view') as any).select('id', { count: 'exact', head: true }),
+        (supabase.from('admin_requests_view') as any).select('id, status, is_verified'),
       ]);
 
       const totalUsers = usersResult.count || 0;

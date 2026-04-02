@@ -83,8 +83,8 @@ export default function RequestDetailPage() {
       } as unknown as HelpRequest);
     } else {
       // User has full access - get profile data
-      const { data: profile } = await supabase
-        .from('profiles_public')
+      const { data: profile } = await (supabase
+        .from('profiles_public') as any)
         .select('full_name, avatar_url')
         .eq('user_id', data.user_id)
         .maybeSingle();

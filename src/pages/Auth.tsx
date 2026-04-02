@@ -60,7 +60,7 @@ export default function AuthPage() {
       _role: 'admin'
     });
     
-    if (data === true) {
+    if ((data as unknown as boolean) === true) {
       navigate('/admin');
     } else {
       navigate('/dashboard');
