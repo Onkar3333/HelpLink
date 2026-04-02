@@ -63,7 +63,7 @@ export function useIsAdmin() {
       });
 
       if (!error) {
-        setIsAdmin(data === true);
+        setIsAdmin(data as unknown as boolean === true);
       }
       setLoading(false);
     };
@@ -102,7 +102,7 @@ export function useAdminRequests() {
         variant: 'destructive',
       });
     } else {
-      setRequests((data as AdminRequest[]) || []);
+      setRequests((data as unknown as AdminRequest[]) || []);
     }
     setLoading(false);
   }, [user, isAdmin, toast]);
@@ -116,8 +116,8 @@ export function useAdminRequests() {
   const verifyRequest = async (requestId: string) => {
     if (!user) return;
 
-    const { error } = await supabase
-      .from('help_requests')
+    const { error } = await (supabase
+      .from('help_requests') as any)
       .update({
         is_verified: true,
         verified_by: user.id,
@@ -141,8 +141,8 @@ export function useAdminRequests() {
   };
 
   const unverifyRequest = async (requestId: string) => {
-    const { error } = await supabase
-      .from('help_requests')
+    const { error } = await (supabase
+      .from('help_requests') as any)
       .update({
         is_verified: false,
         verified_by: null,
@@ -166,8 +166,8 @@ export function useAdminRequests() {
   };
 
   const deleteRequest = async (requestId: string) => {
-    const { error } = await supabase
-      .from('help_requests')
+    const { error } = await (supabase
+      .from('help_requests') as any)
       .delete()
       .eq('id', requestId);
 
@@ -187,8 +187,8 @@ export function useAdminRequests() {
   };
 
   const updateRequestStatus = async (requestId: string, status: RequestStatus) => {
-    const { error } = await supabase
-      .from('help_requests')
+    const { error } = await (supabase
+      .from('help_requests') as any)
       .update({ status })
       .eq('id', requestId);
 
@@ -246,7 +246,7 @@ export function useAdminUsers() {
         variant: 'destructive',
       });
     } else {
-      setUsers((data as AdminUser[]) || []);
+      setUsers((data as unknown as AdminUser[]) || []);
     }
     setLoading(false);
   }, [user, isAdmin, toast]);
@@ -258,8 +258,8 @@ export function useAdminUsers() {
   }, [isAdmin, fetchUsers]);
 
   const addRole = async (userId: string, role: AppRole) => {
-    const { error } = await supabase
-      .from('user_roles')
+    const { error } = await (supabase
+      .from('user_roles') as any)
       .insert({ user_id: userId, role });
 
     if (error) {
@@ -280,8 +280,8 @@ export function useAdminUsers() {
   };
 
   const removeRole = async (userId: string, role: AppRole) => {
-    const { error } = await supabase
-      .from('user_roles')
+    const { error } = await (supabase
+      .from('user_roles') as any)
       .delete()
       .eq('user_id', userId)
       .eq('role', role);

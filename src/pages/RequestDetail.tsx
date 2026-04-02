@@ -49,16 +49,16 @@ export default function RequestDetailPage() {
     setLoading(true);
     
     // Fetch request - will get full details if user is owner/helper, limited otherwise
-    const { data, error } = await supabase
-      .from('help_requests')
+    const { data, error } = await (supabase
+      .from('help_requests') as any)
       .select('*')
       .eq('id', id)
       .maybeSingle();
 
     if (error || !data) {
       // If RLS blocks access, try fetching from public view (without contact_phone)
-      const { data: publicData, error: publicError } = await supabase
-        .from('help_requests_public')
+      const { data: publicData, error: publicError } = await (supabase
+        .from('help_requests_public') as any)
         .select('*')
         .eq('id', id)
         .maybeSingle();
@@ -70,8 +70,8 @@ export default function RequestDetailPage() {
       }
       
       // Get requester profile from public view
-      const { data: profile } = await supabase
-        .from('profiles_public')
+      const { data: profile } = await (supabase
+        .from('profiles_public') as any)
         .select('full_name, avatar_url')
         .eq('user_id', publicData.user_id)
         .maybeSingle();
@@ -83,8 +83,8 @@ export default function RequestDetailPage() {
       } as unknown as HelpRequest);
     } else {
       // User has full access - get profile data
-      const { data: profile } = await supabase
-        .from('profiles_public')
+      const { data: profile } = await (supabase
+        .from('profiles_public') as any)
         .select('full_name, avatar_url')
         .eq('user_id', data.user_id)
         .maybeSingle();

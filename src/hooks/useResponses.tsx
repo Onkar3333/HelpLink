@@ -31,8 +31,8 @@ export function useRequestResponses(requestId: string) {
 
     setLoading(true);
     
-    const { data, error } = await supabase
-      .from('help_responses')
+    const { data, error } = await (supabase
+      .from('help_responses') as any)
       .select('*')
       .eq('request_id', requestId)
       .order('created_at', { ascending: true });
@@ -44,8 +44,8 @@ export function useRequestResponses(requestId: string) {
       // Fetch profile data from the public view for each helper
       const responsesWithProfiles = await Promise.all(
         (data || []).map(async (response: any) => {
-          const { data: profile } = await supabase
-            .from('profiles_public')
+          const { data: profile } = await (supabase
+            .from('profiles_public') as any)
             .select('full_name, avatar_url')
             .eq('user_id', response.helper_id)
             .maybeSingle();
@@ -100,8 +100,8 @@ export function useCreateResponse() {
       console.log('Creating response:', { requestId, helper_id: user.id, seekerId });
 
       // Create the help response
-      const { data: responseData, error: responseError } = await supabase
-        .from('help_responses')
+      const { data: responseData, error: responseError } = await (supabase
+        .from('help_responses') as any)
         .insert({
           request_id: requestId,
           helper_id: user.id,
@@ -118,8 +118,8 @@ export function useCreateResponse() {
       console.log('Help response created:', responseData);
 
       // Create a private message from helper to seeker (fire and forget)
-      supabase
-        .from('messages')
+      (supabase
+        .from('messages') as any)
         .insert({
           sender_id: user.id,
           receiver_id: seekerId,

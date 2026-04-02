@@ -42,8 +42,8 @@ export function useConversations() {
 
     try {
       // Get all messages where user is sender or receiver
-      const { data: messages, error } = await supabase
-        .from('messages')
+      const { data: messages, error } = await (supabase
+        .from('messages') as any)
         .select('*')
         .or(`sender_id.eq.${user.id},receiver_id.eq.${user.id}`)
         .order('created_at', { ascending: false });
@@ -82,8 +82,8 @@ export function useConversations() {
         const otherUserId = lastMsg.sender_id === user.id ? lastMsg.receiver_id : lastMsg.sender_id;
 
         // Fetch other user's profile
-        const { data: profile } = await supabase
-          .from('profiles_public')
+        const { data: profile } = await (supabase
+          .from('profiles_public') as any)
           .select('full_name, avatar_url')
           .eq('user_id', otherUserId)
           .maybeSingle();
@@ -146,8 +146,8 @@ export function useConversationMessages(otherUserId: string) {
     try {
       // Fetch messages between current user and other user
       // Using a simpler approach with proper filters
-      const { data, error } = await supabase
-        .from('messages')
+      const { data, error } = await (supabase
+        .from('messages') as any)
         .select('*')
         .or(`sender_id.eq.${user.id},sender_id.eq.${otherUserId}`)
         .or(`receiver_id.eq.${user.id},receiver_id.eq.${otherUserId}`)
@@ -172,8 +172,8 @@ export function useConversationMessages(otherUserId: string) {
         );
 
         if (unreadMsgs.length > 0) {
-          const { error: markError } = await supabase
-            .from('messages')
+          const { error: markError } = await (supabase
+            .from('messages') as any)
             .update({ is_read: true })
             .in(
               'id',
@@ -237,8 +237,8 @@ export function useSendMessage() {
     try {
       console.log('Sending message:', { from: user.id, to: receiverId, content });
 
-      const { data, error } = await supabase
-        .from('messages')
+      const { data, error } = await (supabase
+        .from('messages') as any)
         .insert({
           sender_id: user.id,
           receiver_id: receiverId,

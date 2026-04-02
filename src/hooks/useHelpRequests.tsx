@@ -55,8 +55,8 @@ export function useHelpRequests(filters?: {
     setLoading(true);
     
     // Use public view to hide sensitive data (contact_phone) for browsing
-    let query = supabase
-      .from('help_requests_public')
+    let query = (supabase
+      .from('help_requests_public') as any)
       .select('*')
       .order('created_at', { ascending: false });
 
@@ -122,8 +122,8 @@ export function useMyRequests() {
     setLoading(true);
     
     try {
-      const { data, error } = await supabase
-        .from('help_requests')
+      const { data, error } = await (supabase
+        .from('help_requests') as any)
         .select('*')
         .eq('user_id', user.id)
         .order('created_at', { ascending: false });
@@ -223,8 +223,8 @@ export function useUpdateRequestStatus() {
   const updateStatus = async (requestId: string, status: RequestStatusEnum) => {
     setLoading(true);
     
-    const { error } = await supabase
-      .from('help_requests')
+    const { error } = await (supabase
+      .from('help_requests') as any)
       .update({ status })
       .eq('id', requestId);
 

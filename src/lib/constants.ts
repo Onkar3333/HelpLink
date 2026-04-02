@@ -18,8 +18,10 @@ export type HelpCategory =
   | 'emergency'
   | 'food_grocery'
   | 'education'
+  | 'financial'
   | 'shelter_housing'
   | 'job_skills'
+  | 'senior_citizen'
   | 'disaster_relief';
 
 export type UrgencyLevel = 'normal' | 'urgent' | 'critical';
@@ -76,6 +78,14 @@ export const HELP_CATEGORIES: CategoryInfo[] = [
     bgColor: 'bg-purple-50',
   },
   {
+    id: 'financial',
+    label: 'Financial Aid',
+    description: 'Financial assistance and monetary support',
+    icon: Wallet,
+    color: 'text-yellow-600',
+    bgColor: 'bg-yellow-50',
+  },
+  {
     id: 'shelter_housing',
     label: 'Shelter & Housing',
     description: 'Temporary shelter, rent help, safe housing',
@@ -90,6 +100,14 @@ export const HELP_CATEGORIES: CategoryInfo[] = [
     icon: Briefcase,
     color: 'text-indigo-600',
     bgColor: 'bg-indigo-50',
+  },
+  {
+    id: 'senior_citizen',
+    label: 'Senior Citizen Care',
+    description: 'Support and assistance for elderly individuals',
+    icon: Heart,
+    color: 'text-pink-600',
+    bgColor: 'bg-pink-50',
   },
   {
     id: 'disaster_relief',

@@ -60,14 +60,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const fetchProfile = async (userId: string) => {
-    const { data, error } = await supabase
-      .from('profiles')
+    const { data, error } = await (supabase
+      .from('profiles') as any)
       .select('*')
       .eq('user_id', userId)
       .maybeSingle();
 
     if (!error && data) {
-      setProfile(data);
+      setProfile(data as Profile);
     }
   };
 
@@ -105,8 +105,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const updateProfile = async (updates: Partial<Profile>) => {
     if (!user) return { error: new Error('Not authenticated') };
 
-    const { error } = await supabase
-      .from('profiles')
+    const { error } = await (supabase
+      .from('profiles') as any)
       .update(updates)
       .eq('user_id', user.id);
 
