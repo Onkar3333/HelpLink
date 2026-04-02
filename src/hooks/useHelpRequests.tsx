@@ -122,8 +122,8 @@ export function useMyRequests() {
     setLoading(true);
     
     try {
-      const { data, error } = await supabase
-        .from('help_requests')
+      const { data, error } = await (supabase
+        .from('help_requests') as any)
         .select('*')
         .eq('user_id', user.id)
         .order('created_at', { ascending: false });
