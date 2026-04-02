@@ -187,8 +187,8 @@ export function useAdminRequests() {
   };
 
   const updateRequestStatus = async (requestId: string, status: RequestStatus) => {
-    const { error } = await supabase
-      .from('help_requests')
+    const { error } = await (supabase
+      .from('help_requests') as any)
       .update({ status })
       .eq('id', requestId);
 
