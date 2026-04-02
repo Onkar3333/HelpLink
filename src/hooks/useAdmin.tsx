@@ -166,8 +166,8 @@ export function useAdminRequests() {
   };
 
   const deleteRequest = async (requestId: string) => {
-    const { error } = await supabase
-      .from('help_requests')
+    const { error } = await (supabase
+      .from('help_requests') as any)
       .delete()
       .eq('id', requestId);
 
