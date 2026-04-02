@@ -63,7 +63,7 @@ export function useIsAdmin() {
       });
 
       if (!error) {
-        setIsAdmin(data === true);
+        setIsAdmin(data as unknown as boolean === true);
       }
       setLoading(false);
     };
