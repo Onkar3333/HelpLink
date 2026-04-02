@@ -141,8 +141,8 @@ export function useAdminRequests() {
   };
 
   const unverifyRequest = async (requestId: string) => {
-    const { error } = await supabase
-      .from('help_requests')
+    const { error } = await (supabase
+      .from('help_requests') as any)
       .update({
         is_verified: false,
         verified_by: null,
