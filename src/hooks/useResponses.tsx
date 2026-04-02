@@ -100,8 +100,8 @@ export function useCreateResponse() {
       console.log('Creating response:', { requestId, helper_id: user.id, seekerId });
 
       // Create the help response
-      const { data: responseData, error: responseError } = await supabase
-        .from('help_responses')
+      const { data: responseData, error: responseError } = await (supabase
+        .from('help_responses') as any)
         .insert({
           request_id: requestId,
           helper_id: user.id,
