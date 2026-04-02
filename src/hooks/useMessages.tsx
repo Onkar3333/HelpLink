@@ -42,8 +42,8 @@ export function useConversations() {
 
     try {
       // Get all messages where user is sender or receiver
-      const { data: messages, error } = await supabase
-        .from('messages')
+      const { data: messages, error } = await (supabase
+        .from('messages') as any)
         .select('*')
         .or(`sender_id.eq.${user.id},receiver_id.eq.${user.id}`)
         .order('created_at', { ascending: false });
