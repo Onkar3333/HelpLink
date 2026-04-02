@@ -146,8 +146,8 @@ export function useConversationMessages(otherUserId: string) {
     try {
       // Fetch messages between current user and other user
       // Using a simpler approach with proper filters
-      const { data, error } = await supabase
-        .from('messages')
+      const { data, error } = await (supabase
+        .from('messages') as any)
         .select('*')
         .or(`sender_id.eq.${user.id},sender_id.eq.${otherUserId}`)
         .or(`receiver_id.eq.${user.id},receiver_id.eq.${otherUserId}`)
