@@ -57,8 +57,8 @@ export default function RequestDetailPage() {
 
     if (error || !data) {
       // If RLS blocks access, try fetching from public view (without contact_phone)
-      const { data: publicData, error: publicError } = await supabase
-        .from('help_requests_public')
+      const { data: publicData, error: publicError } = await (supabase
+        .from('help_requests_public') as any)
         .select('*')
         .eq('id', id)
         .maybeSingle();
