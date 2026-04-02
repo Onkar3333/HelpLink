@@ -49,8 +49,8 @@ export default function RequestDetailPage() {
     setLoading(true);
     
     // Fetch request - will get full details if user is owner/helper, limited otherwise
-    const { data, error } = await supabase
-      .from('help_requests')
+    const { data, error } = await (supabase
+      .from('help_requests') as any)
       .select('*')
       .eq('id', id)
       .maybeSingle();
