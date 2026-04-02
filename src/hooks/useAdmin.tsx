@@ -102,7 +102,7 @@ export function useAdminRequests() {
         variant: 'destructive',
       });
     } else {
-      setRequests((data as AdminRequest[]) || []);
+      setRequests((data as unknown as AdminRequest[]) || []);
     }
     setLoading(false);
   }, [user, isAdmin, toast]);
