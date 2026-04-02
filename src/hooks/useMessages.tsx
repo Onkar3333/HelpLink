@@ -82,8 +82,8 @@ export function useConversations() {
         const otherUserId = lastMsg.sender_id === user.id ? lastMsg.receiver_id : lastMsg.sender_id;
 
         // Fetch other user's profile
-        const { data: profile } = await supabase
-          .from('profiles_public')
+        const { data: profile } = await (supabase
+          .from('profiles_public') as any)
           .select('full_name, avatar_url')
           .eq('user_id', otherUserId)
           .maybeSingle();
