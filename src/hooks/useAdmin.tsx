@@ -280,8 +280,8 @@ export function useAdminUsers() {
   };
 
   const removeRole = async (userId: string, role: AppRole) => {
-    const { error } = await supabase
-      .from('user_roles')
+    const { error } = await (supabase
+      .from('user_roles') as any)
       .delete()
       .eq('user_id', userId)
       .eq('role', role);

@@ -102,6 +102,14 @@ export const HELP_CATEGORIES: CategoryInfo[] = [
     bgColor: 'bg-indigo-50',
   },
   {
+    id: 'senior_citizen',
+    label: 'Senior Citizen Care',
+    description: 'Support and assistance for elderly individuals',
+    icon: Heart,
+    color: 'text-pink-600',
+    bgColor: 'bg-pink-50',
+  },
+  {
     id: 'disaster_relief',
     label: 'Disaster Relief',
     description: 'Natural disaster support and relief',
