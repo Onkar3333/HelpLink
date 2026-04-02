@@ -172,8 +172,8 @@ export function useConversationMessages(otherUserId: string) {
         );
 
         if (unreadMsgs.length > 0) {
-          const { error: markError } = await supabase
-            .from('messages')
+          const { error: markError } = await (supabase
+            .from('messages') as any)
             .update({ is_read: true })
             .in(
               'id',
